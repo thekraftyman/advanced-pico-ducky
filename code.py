@@ -4,6 +4,7 @@ from board import *
 
 def main():
     engine = DuckyEngine()
+    rp_board = Tiny2040()
     prog_status = bool(engine.get_programming_status())
 
     # run the payload
@@ -15,15 +16,9 @@ def main():
     else:
         print( "Update payload" )
 
-    # run idle animation after payload is finished
-    led_state = False
-    while True:
-        if led_state:
-            engine.led_up()
-            led_state = False
-        else:
-            engine.led_down()
-            led_state = True
+    rp_board.led_breathe()
+
+
 
 def select_payload():
     payload = "payload.dd"

@@ -13,9 +13,9 @@ class RP2040Board:
     """
     Base class for all boards
     """
-    def __init__( self, led_pin=None ):
+    def __init__( self, led_pin ):
         self._led_pin = led_pin
-        self._led_created = False
+        self._led = self._led = pwmio.PWMOut( led_pin, frequency=5000, duty_cycle=0 )
 
     @property
     def led_pin( self ):
@@ -25,11 +25,6 @@ class RP2040Board:
     def led( self ):
         return self._led
 
-    def create_led( self ):
-        self._led = pwmio.PWMOut( self.led_pin, frequency=5000, duty_cycle=0 )
-        self._led_created = True
-        return self._led
-
     def led_breathe( self ):
         ''' locks into an infinite loop. watch out! '''
         while True:
@@ -37,16 +32,12 @@ class RP2040Board:
             self.led_up()
 
     def led_down( self ):
-        if not self._led_created:
-            return
         for i in range( 100 ):
             if i >= 50:
                 self.led.duty_cycle = 65535 - int(( i - 50 ) * 2 * 65535 / 100)
             time.sleep( 0.01 )
 
     def led_up( self ):
-        if not self._led_created:
-            return
         for i in range( 100 ):
             if i < 50:
                 self.led.duty_cycle = int( i * 2 * 65535 / 100 )

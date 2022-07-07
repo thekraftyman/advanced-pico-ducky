@@ -1,6 +1,7 @@
 import digitalio
 from ducky_engine import DuckyEngine
 from board import *
+from rp2040_boards import Tiny2040
 
 def main():
     engine = DuckyEngine()
@@ -17,8 +18,6 @@ def main():
         print( "Update payload" )
 
     rp_board.led_breathe()
-
-
 
 def select_payload():
     payload = "payload.dd"

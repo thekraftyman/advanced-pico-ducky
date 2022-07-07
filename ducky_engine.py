@@ -43,16 +43,12 @@ class DuckyEngine:
         }
         self.kbd = Keyboard( usb_hid.devices )
         self.layout = KeyboardLayout( self.kbd )
-        self.led = pwmio.PWMOut( board.GP20, frequency=5000, duty_cycle=0 )
 
         # init some modules
         supervisor.disable_autoreload()
 
         # sleep to allow the device to register on the host
         time.sleep(.5)
-
-        # bring up the led
-        self.led_up
 
     def convert_line( self, line ):
         newline = []
@@ -77,18 +73,6 @@ class DuckyEngine:
         progStatusPin = digitalio.DigitalInOut(GP0)
         progStatusPin.switch_to_input(pull=digitalio.Pull.UP)
         return not progStatusPin.value
-
-    def led_up( self ):
-        for i in range( 100 ):
-            if i < 50:
-                self.led.duty_cycle = int( i * 2 * 65535 / 100 )
-            time.sleep( 0.01 )
-
-    def led_down( self ):
-        for i in range( 100 ):
-            if i >= 50:
-                self.led.duty_cycle = 65535 - int(( i - 50 ) * 2 * 65535 / 100)
-            time.sleep( 0.01 )
 
     def parse_line( self, line ):
         if line[0:3] == "REM":

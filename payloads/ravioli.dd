@@ -1,0 +1,8 @@
+REM Ravioli Ravioli, what's in the pocketoli
+GUI r
+DELAY 50
+STRING chrome "https://www.youtube.com/watch?v=NWoyTD27kFs"
+DELAY 1500
+STRING f
+DELAY 50
+STRING 1
